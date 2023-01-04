@@ -241,3 +241,27 @@ func PrintAllFilesWithFilter(path string, filter string) {
 		}
 	}
 }
+
+// exercise #6 in functions
+type figures int
+
+const (
+	square figures = iota
+	circle
+	triangle
+)
+
+func calculateArea(x float64) float64 {
+
+}
+
+func area(fig figures) (func(float64) float64, bool) {
+	switch fig {
+	case 0:
+		return calculateArea(), true
+	case 1:
+		return calculateArea(), true
+	default:
+		return calculateArea(), false	
+	}	
+}
