@@ -251,17 +251,15 @@ const (
 	triangle
 )
 
-func calculateArea(x float64) float64 {
-
-}
-
-func area(fig figures) (func(float64) float64, bool) {
-	switch fig {
-	case 0:
-		return calculateArea(), true
-	case 1:
-		return calculateArea(), true
+func area(f figures) (func(float64) float64, bool) {
+	switch f {
+	case square:
+		return func(x float64) float64 { return x * x }, true
+	case circle:
+		return func(x float64) float64 { return 3.142 * x * x }, true
+	case triangle:
+		return func(x float64) float64 { return 0.433 * x * x }, true	
 	default:
-		return calculateArea(), false	
+		return nil, false	
 	}	
 }
