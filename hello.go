@@ -258,8 +258,32 @@ func area(f figures) (func(float64) float64, bool) {
 	case circle:
 		return func(x float64) float64 { return 3.142 * x * x }, true
 	case triangle:
-		return func(x float64) float64 { return 0.433 * x * x }, true	
+		return func(x float64) float64 { return 0.433 * x * x }, true
 	default:
-		return nil, false	
-	}	
+		return nil, false
+	}
+}
+
+// exercise #7 in functions
+func PrintFilesWithFuncFilter(path string, predicate func(string) bool) {
+	var walk func(string)
+	walk = func(path string) {
+		files, err := os.ReadDir(path)
+		if err != nil {
+			fmt.Println("unable to get list of files", err)
+			return
+		}		
+
+		for _, f := range files {
+			filename := filepath.Join(path, f.Name())
+			if predicate(filename) {
+				fmt.Println(filename)
+			}
+			if f.IsDir() {
+				walk(filename)
+			}
+		}
+	}
+	
+	walk(path)
 }
