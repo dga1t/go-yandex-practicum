@@ -39,6 +39,10 @@ func main() {
 	fmt.Println(removeDuplicates(input))
 
 	serializeJson()
+
+	fmt.Println(Global)
+	UseGlobal()
+	fmt.Println(Global)
 }
 
 func getGeneration(year int) {
@@ -272,7 +276,7 @@ func PrintFilesWithFuncFilter(path string, predicate func(string) bool) {
 		if err != nil {
 			fmt.Println("unable to get list of files", err)
 			return
-		}		
+		}
 
 		for _, f := range files {
 			filename := filepath.Join(path, f.Name())
@@ -284,6 +288,18 @@ func PrintFilesWithFuncFilter(path string, predicate func(string) bool) {
 			}
 		}
 	}
-	
+
 	walk(path)
+}
+
+// exercise #4 in operator defer
+var Global = 5
+
+func UseGlobal() {
+	defer func(checkout int) {
+		Global = checkout
+	}(Global)
+	Global = 69
+	fmt.Println(Global)
+
 }
