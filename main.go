@@ -2,22 +2,48 @@ package main
 
 import (
 	"encoding/json"
+	"yandex-go-intro/exercise"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
-	// "time"
 )
 
 func main() {
-	fmt.Println("Hello, world!1")
+	s := mathslice.Slice{1, 2, 3}
+	fmt.Println(s)
+	fmt.Println("Сумма слайса: ", mathslice.SumSlice(s))
 
-	ver := "v0.0.1"
-	id := 0
-	pi := 3.1415
+	mathslice.MapSlice(s, func(i mathslice.Element) mathslice.Element {
+		return i * 2
+	})
 
-	fmt.Println("ver =", ver, "id =", id, "pi =", pi)
+	fmt.Println("Слайс, умноженный на два: ", s)
+
+	fmt.Println("Сумма слайса: ", mathslice.SumSlice(s))
+
+	fmt.Println("Свёртка слайса умножением ",
+		mathslice.FoldSlice(s,
+			func(x mathslice.Element, y mathslice.Element) mathslice.Element {
+				return x * y
+			},
+			1))
+
+	fmt.Println("Свёртка слайса сложением ",
+		mathslice.FoldSlice(s,
+			func(x mathslice.Element, y mathslice.Element) mathslice.Element {
+				return x + y
+			},
+			0))
+
+	// fmt.Println("Hello, world!1")
+
+	// ver := "v0.0.1"
+	// id := 0
+	// pi := 3.1415
+
+	// fmt.Println("ver =", ver, "id =", id, "pi =", pi)
 
 	// fizzBuzz()
 	// testSlice()
@@ -28,21 +54,21 @@ func main() {
 	//result := findApair(aaa, 4)
 	//fmt.Println(result)
 
-	input := []string{
-		"cat",
-		"dog",
-		"bird",
-		"dog",
-		"parrot",
-		"cat",
-	}
-	fmt.Println(removeDuplicates(input))
+	// input := []string{
+	// 	"cat",
+	// 	"dog",
+	// 	"bird",
+	// 	"dog",
+	// 	"parrot",
+	// 	"cat",
+	// }
+	// fmt.Println(removeDuplicates(input))
 
-	serializeJson()
+	// serializeJson()
 
-	fmt.Println(Global)
-	UseGlobal()
-	fmt.Println(Global)
+	// fmt.Println(Global)
+	// UseGlobal()
+	// fmt.Println(Global)
 }
 
 func getGeneration(year int) {
@@ -301,5 +327,4 @@ func UseGlobal() {
 	}(Global)
 	Global = 69
 	fmt.Println(Global)
-
 }
