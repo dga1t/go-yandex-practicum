@@ -2,40 +2,20 @@ package main
 
 import (
 	"encoding/json"
-	"yandex-go-intro/exercise"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
+	"yandex-go-intro/exercise/mathslice"
+	"yandex-go-intro/exercise/stopwatch"
 )
 
 func main() {
-	s := mathslice.Slice{1, 2, 3}
-	fmt.Println(s)
-	fmt.Println("Сумма слайса: ", mathslice.SumSlice(s))
 
-	mathslice.MapSlice(s, func(i mathslice.Element) mathslice.Element {
-		return i * 2
-	})
-
-	fmt.Println("Слайс, умноженный на два: ", s)
-
-	fmt.Println("Сумма слайса: ", mathslice.SumSlice(s))
-
-	fmt.Println("Свёртка слайса умножением ",
-		mathslice.FoldSlice(s,
-			func(x mathslice.Element, y mathslice.Element) mathslice.Element {
-				return x * y
-			},
-			1))
-
-	fmt.Println("Свёртка слайса сложением ",
-		mathslice.FoldSlice(s,
-			func(x mathslice.Element, y mathslice.Element) mathslice.Element {
-				return x + y
-			},
-			0))
+	testStopWatch()
+	// testMathslice()
 
 	// fmt.Println("Hello, world!1")
 
@@ -327,4 +307,49 @@ func UseGlobal() {
 	}(Global)
 	Global = 69
 	fmt.Println(Global)
+}
+
+func testMathslice() {
+	s := mathslice.Slice{1, 2, 3}
+	fmt.Println(s)
+	fmt.Println("Сумма слайса: ", mathslice.SumSlice(s))
+
+	mathslice.MapSlice(s, func(i mathslice.Element) mathslice.Element {
+		return i * 2
+	})
+
+	fmt.Println("Слайс, умноженный на два: ", s)
+
+	fmt.Println("Сумма слайса: ", mathslice.SumSlice(s))
+
+	fmt.Println("Свёртка слайса умножением ",
+		mathslice.FoldSlice(s,
+			func(x mathslice.Element, y mathslice.Element) mathslice.Element {
+				return x * y
+			},
+			1))
+
+	fmt.Println("Свёртка слайса сложением ",
+		mathslice.FoldSlice(s,
+			func(x mathslice.Element, y mathslice.Element) mathslice.Element {
+				return x + y
+			},
+			0))
+}
+
+// exercise #4 in OOP
+func testStopWatch() {
+	sw := stopwatch.Stopwatch{}
+	sw.Start()
+
+	time.Sleep(1 * time.Second)
+	sw.SaveSplit()
+
+	time.Sleep(500 * time.Millisecond)
+	sw.SaveSplit()
+
+	time.Sleep(300 * time.Millisecond)
+	sw.SaveSplit()
+
+	fmt.Println(sw.GetResults())
 }
