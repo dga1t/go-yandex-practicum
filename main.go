@@ -10,11 +10,13 @@ import (
 	"time"
 	"yandex-go-intro/exercise/mathslice"
 	"yandex-go-intro/exercise/stopwatch"
+	"yandex-go-intro/exercise/logger"
 )
 
 func main() {
 
-	testStopWatch()
+	testLogger()
+	// testStopWatch()
 	// testMathslice()
 
 	// fmt.Println("Hello, world!1")
@@ -352,4 +354,14 @@ func testStopWatch() {
 	sw.SaveSplit()
 
 	fmt.Println(sw.GetResults())
+}
+
+// exercise #5 in embeding
+func testLogger() {
+	logger := logger.NewLogExtended()
+	logger.SetLogLevel(1)
+	logger.Infoln("Не должно напечататься")
+	logger.Warnln("Hello")
+	logger.Errorln("World")
+	logger.Println("Debug")
 }
