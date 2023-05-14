@@ -3,19 +3,24 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 	"time"
-	"yandex-go-intro/exercise/mathslice"
-	"yandex-go-intro/exercise/stopwatch"
+	"yandex-go-intro/exercise/hashbyte"
 	"yandex-go-intro/exercise/logger"
+	"yandex-go-intro/exercise/mathslice"
+	"yandex-go-intro/exercise/randbyte"
+	"yandex-go-intro/exercise/stopwatch"
 )
 
 func main() {
 
-	testLogger()
+	// testLimitReader()
+	// testHashbyte()
+	// testLogger()
 	// testStopWatch()
 	// testMathslice()
 
@@ -364,4 +369,54 @@ func testLogger() {
 	logger.Warnln("Hello")
 	logger.Errorln("World")
 	logger.Println("Debug")
+}
+
+// exercise #1 in interfaces
+func testHashbyte() {
+	// создаём генератор случайных чисел
+	generator := randbyte.New(time.Now().UnixNano()) // в качестве затравки передаём ему текущее время — при каждом запуске оно будет разным
+
+	buf := make([]byte, 16)
+
+	for i := 0; i < 5; i++ {
+		n, _ := generator.Read(buf)
+		fmt.Printf("Generate bytes: %v size(%d)\n", buf, n)
+	}
+
+	hasher := hashbyte.New(0)
+	hasher.Write(buf)
+	fmt.Printf("Hash: %v \n", hasher.Hash())
+}
+
+// exercise #2 in interfaces
+// write a func that limits the amount of bytes that are read from io.Reader
+type LimitedReader struct {
+	reader io.Reader
+	left   int // запоминаем количество считанных байт
+}
+
+func LimitReader(r io.Reader, n int) io.Reader {
+	return &LimitedReader{reader: r, left: n}
+}
+
+func (r *LimitedReader) Read(p []byte) (int, error) {
+	if r.left == 0 {
+		return 0, io.EOF
+	}
+	if r.left < len(p) {
+		p = p[0:r.left]
+	}
+	n, err := r.reader.Read(p)
+	r.left -= n
+	return n, err
+}
+
+func testLimitReader() {
+	r := strings.NewReader("some io.Reader stream to be read\n")
+	lr := LimitReader(r, 4)
+
+	_, err := io.Copy(os.Stdout, lr)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
